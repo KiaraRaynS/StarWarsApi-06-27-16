@@ -130,6 +130,43 @@ Release Date
         # Search for Vehicle
         if searchresponse == 3:
             vehiclesearch = input('What vehicle do you wish to see? ')
-            print(vehiclesearch)
+            url = 'http://swapi.co/api/vehicles/'
+            response = requests.get(url).json()
+            for vehicle in response['results']:
+                if vehicle['name'] == vehiclesearch:
+                    vehicleurl = vehicle['url']
+                    response = requests.get(vehicleurl).json()
+                    print('Name')
+                    print(response['name'])
+                    print('Model')
+                    print(response['model'])
+                    print('Manufacturer')
+                    print(response['manufacturer'])
+                    print('Cost in Credits')
+                    print(response['cost_in_credits'])
+                    print('Length')
+                    print(response['length'])
+                    print('Max Atmosphering Speed')
+                    print(response['max_atmosphering_speed'])
+                    print('Crew')
+                    print(response['crew'])
+                    print('Passengers')
+                    print(response['passengers'])
+                    print('Cargo capacity')
+                    print(response['cargo_capacity'])
+                    print('Consumables')
+                    print(response['consumables'])
+                    print('Vehicle Class')
+                    print(response['vehicle_class'])
+                    print('Pilots')
+                    pilotsurl = response['pilots']
+                    for item in pilotsurl:
+                        response = requests.get(item).json()
+                        print(response['name'])
+                    print('Films Appeared In')
+                    filmsurl = response['films']
+                    for item in filmsurl:
+                        response = requests.get(item).json()
+                        print(response['title'])
 
 search_or_list()
