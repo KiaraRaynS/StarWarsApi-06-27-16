@@ -70,42 +70,90 @@ def search_or_list():
             url = 'http://swapi.co/api/people/'
             response = requests.get(url).json()
             namesearch = input("Who do you wish to see? ").title()
-            for people in response['results']:
-                if people['name'] == namesearch:
-                    print(people['name'])
-                    # Films they were in
-                    print("""
+            if response['next']:
+                while response['next']:
+                    for people in response['results']:
+                        if people['name'] == namesearch:
+                            print(people['name'])
+                            # Films they were in
+                            print("""
 Films
-                            """)
-                    filmslist = people['films']
-                    for filmurl in filmslist:
-                        newurl = filmurl
-                        response = requests.get(newurl).json()
-                        print(response['title'])
-                    # Species
-                    print("""
+                                    """)
+                            filmslist = people['films']
+                            for filmurl in filmslist:
+                                newurl = filmurl
+                                filmresponse = requests.get(newurl).json()
+                                print(filmresponse['title'])
+                            # Species
+                            print("""
 Species
-                            """)
-                    species = people['species']
-                    for url in species:
-                        response = requests.get(url).json()
-                        print(response['name'])
-                    # Vehicles
-                    print("""
+                                        """)
+                            species = people['species']
+                            for url in species:
+                                urlresponse = requests.get(url).json()
+                                print(urlresponse['name'])
+
+                            # Vehicles
+                            print("""
 Vehicles
-                            """)
-                    vehicleslist = people['vehicles']
-                    for url in vehicleslist:
-                        response = requests.get(url).json()
-                        print(response['name'])
-                    # Starships
-                    print("""
+                                        """)
+                            vehicleslist = people['vehicles']
+                            for url in vehicleslist:
+                                vehicleresponse = requests.get(url).json()
+                                print(vehicleresponse['name'])
+                            # Starships
+                            print("""
 Starships
-                            """)
-                    starshipslist = people['starships']
-                    for url in starshipslist:
-                        response = requests.get(url).json()
-                        print(response['name'])
+                                        """)
+                            starshipslist = people['starships']
+                            for url in starshipslist:
+                                starshipresponse = requests.get(url).json()
+                                print(starshipresponse['name'])
+                    url = response['next']
+                    response = requests.get(url).json()
+
+            else:
+                for people in response['results']:
+                    if people['name'] == namesearch:
+                        print(people['name'])
+                        for people in response['results']:
+                            if people['name'] == namesearch:
+                                print(people['name'])
+                                # Films they were in
+                                print("""
+Films
+                                        """)
+                                filmslist = people['films']
+                                for filmurl in filmslist:
+                                    newurl = filmurl
+                                    filmresponse = requests.get(newurl).json()
+                                    print(filmresponse['title'])
+                                # Species
+                                print("""
+    Species
+                                            """)
+                                species = people['species']
+                                for url in species:
+                                    urlresponse = requests.get(url).json()
+                                    print(urlresponse['name'])
+
+                                # Vehicles
+                                print("""
+    Vehicles
+                                            """)
+                                vehicleslist = people['vehicles']
+                                for url in vehicleslist:
+                                    vehicleresponse = requests.get(url).json()
+                                    print(vehicleresponse['name'])
+                                # Starships
+                                print("""
+    Starships
+                                            """)
+                                starshipslist = people['starships']
+                                for url in starshipslist:
+                                    starshipresponse = requests.get(url).json()
+                                    print(starshipresponse['name'])
+
         # Search for Movie
         if searchresponse == 2:
             titlesearch = input('What movie do you wish to see? ').title()
@@ -132,41 +180,82 @@ Release Date
             vehiclesearch = input('What vehicle do you wish to see? ')
             url = 'http://swapi.co/api/vehicles/'
             response = requests.get(url).json()
-            for vehicle in response['results']:
-                if vehicle['name'] == vehiclesearch:
-                    vehicleurl = vehicle['url']
-                    response = requests.get(vehicleurl).json()
-                    print('Name')
-                    print(response['name'])
-                    print('Model')
-                    print(response['model'])
-                    print('Manufacturer')
-                    print(response['manufacturer'])
-                    print('Cost in Credits')
-                    print(response['cost_in_credits'])
-                    print('Length')
-                    print(response['length'])
-                    print('Max Atmosphering Speed')
-                    print(response['max_atmosphering_speed'])
-                    print('Crew')
-                    print(response['crew'])
-                    print('Passengers')
-                    print(response['passengers'])
-                    print('Cargo capacity')
-                    print(response['cargo_capacity'])
-                    print('Consumables')
-                    print(response['consumables'])
-                    print('Vehicle Class')
-                    print(response['vehicle_class'])
-                    print('Pilots')
-                    pilotsurl = response['pilots']
-                    for item in pilotsurl:
-                        response = requests.get(item).json()
+            if response['next']:
+                while response['next']:
+                    for vehicle in response['results']:
+                        if vehicle['name'] == vehiclesearch:
+                            vehicleurl = vehicle['url']
+                            vresponse = requests.get(vehicleurl).json()
+                            print('Name')
+                            print(vresponse['name'])
+                            print('Model')
+                            print(vresponse['model'])
+                            print('Manufacturer')
+                            print(vresponse['manufacturer'])
+                            print('Cost in Credits')
+                            print(vresponse['cost_in_credits'])
+                            print('Length')
+                            print(vresponse['length'])
+                            print('Max Atmosphering Speed')
+                            print(vresponse['max_atmosphering_speed'])
+                            print('Crew')
+                            print(vresponse['crew'])
+                            print('Passengers')
+                            print(vresponse['passengers'])
+                            print('Cargo capacity')
+                            print(vresponse['cargo_capacity'])
+                            print('Consumables')
+                            print(vresponse['consumables'])
+                            print('Vehicle Class')
+                            print(vresponse['vehicle_class'])
+                            print('Pilots')
+                            pilotsurl = vresponse['pilots']
+                            for item in pilotsurl:
+                                pilotresponse = requests.get(item).json()
+                                print(response['name'])
+                            print('Films Appeared In')
+                            filmsurl = vresponse['films']
+                            for item in filmsurl:
+                                pilotresponse = requests.get(item).json()
+                                print(pilotresponse['title'])
+                            break
+                    newurl = response['next']
+                    response = requests.get(newurl).json()
+            else:
+                for vehicle in response['results']:
+                    if vehicle['name'] == vehiclesearch:
+                        vehicleurl = vehicle['url']
+                        response = requests.get(vehicleurl).json()
+                        print('Name')
                         print(response['name'])
-                    print('Films Appeared In')
-                    filmsurl = response['films']
-                    for item in filmsurl:
-                        response = requests.get(item).json()
-                        print(response['title'])
-
+                        print('Model')
+                        print(response['model'])
+                        print('Manufacturer')
+                        print(response['manufacturer'])
+                        print('Cost in Credits')
+                        print(response['cost_in_credits'])
+                        print('Length')
+                        print(response['length'])
+                        print('Max Atmosphering Speed')
+                        print(response['max_atmosphering_speed'])
+                        print('Crew')
+                        print(response['crew'])
+                        print('Passengers')
+                        print(response['passengers'])
+                        print('Cargo capacity')
+                        print(response['cargo_capacity'])
+                        print('Consumables')
+                        print(response['consumables'])
+                        print('Vehicle Class')
+                        print(response['vehicle_class'])
+                        print('Pilots')
+                        pilotsurl = response['pilots']
+                        for item in pilotsurl:
+                            pilotresponse = requests.get(item).json()
+                            print(pilotresponse['name'])
+                        print('Films Appeared In')
+                        filmsurl = response['films']
+                        for item in filmsurl:
+                            filmresponse = requests.get(item).json()
+                            print(filmresponse['title'])
 search_or_list()
